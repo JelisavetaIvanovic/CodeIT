@@ -85,7 +85,7 @@ public class GameService {
         }
     }
 
-    public void addArmy(UUID gameId, Army army) {
+    public Army addArmy(UUID gameId, Army army) {
         Game game = findGameById(gameId);
 
         if(game.getStatus() == StatusEnum.ACTIVE) {
@@ -111,6 +111,8 @@ public class GameService {
         }
         armyRepository.save(army);
         gameRepository.save(game);
+
+        return army;
     }
 
     public void resetGame(UUID gameId) {

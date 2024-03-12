@@ -18,8 +18,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/code-it",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "src/main/webapp/index.html",
+            "browser": "src/main/webapp/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -30,7 +30,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/main/webapp/styles.scss"
             ],
             "scripts": []
           },
@@ -68,7 +68,10 @@
               "buildTarget": "codeIT:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.config.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -90,7 +93,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/main/webapp/styles.scss"
             ],
             "scripts": []
           }

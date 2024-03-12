@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +21,16 @@ public class GameLogService {
         log.setCreationDate(Instant.now());
 
         return gameLogRepository.save(log);
+    }
+
+    public List<String> getLogs(UUID gameId) {
+        List<GameLog> logList = gameLogRepository.findAllLogsByGameId(gameId);
+        List<String> textLogs = new ArrayList<>();
+
+        for (GameLog log : logList) {
+            textLogs.add(String.format("%s: %s", log.getCreationDate(),log.getText()));
+        }
+
+        return textLogs;
     }
 }

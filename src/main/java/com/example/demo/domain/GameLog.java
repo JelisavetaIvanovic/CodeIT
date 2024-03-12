@@ -37,6 +37,13 @@ public class GameLog implements Serializable {
         this.creationDate = Instant.now();
     }
 
+    public GameLog(UUID id, String text, UUID game, Instant creationDate) {
+        this.id = id;
+        this.text = text;
+        this.game = game;
+        this.creationDate = creationDate;
+    }
+
     public UUID getId() {
         return id;
     }

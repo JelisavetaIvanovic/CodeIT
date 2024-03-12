@@ -21,14 +21,14 @@ public interface ArmyRepository extends JpaRepository<Army, UUID> {
             + "SET a.attackId = a.attackId + 1 "
             + "WHERE a.game = :gameId "
             + "AND a.attackId >= :minAttackId")
-    public void incrementAttackIdForGame(@Param("gameId") UUID gameId, @Param("minAttackId") Integer minAttackId);
+        public void incrementAttackIdForGame(@Param("gameId") UUID gameId, @Param("minAttackId") Integer minAttackId);
     
     @Transactional
     @Modifying
     @Query("UPDATE Army a "
             + "SET a.currentUnits = :units "
             + "WHERE a.id = :id ")
-    public void reduceUnits(@Param("id") UUID id, @Param("units") Integer units);
+        public void reduceUnits(@Param("id") UUID id, @Param("units") Integer units);
     
     @Query("select "
                 + "new com.example.demo.domain.Army("
