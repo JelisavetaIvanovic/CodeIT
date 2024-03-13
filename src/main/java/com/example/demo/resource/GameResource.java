@@ -68,7 +68,7 @@ public class GameResource {
                 armyDetailsList.add(armyDetails);
             }
 
-            gameList.put("game" + (i + 1), armyDetailsList);
+            gameList.put((game.getId().toString()), armyDetailsList);
         }
     
             return gameList;

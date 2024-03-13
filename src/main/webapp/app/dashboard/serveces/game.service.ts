@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SERVER_API_URL } from '../../app.constants';
 import { GameList } from '../model/game.model';
+import { ArmyData } from '../model/army.model';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -18,7 +19,7 @@ export class GameService {
             .get<GameList>(`${SERVER_API_URL}/game/list-games`, {})
     }
     
-    public addArmy(gameId: string, army: any): Observable<void>{
+    public addArmy(gameId: string, army: ArmyData): Observable<void>{
         return this._http.post<void>(`${SERVER_API_URL}/game/add-army?gameId=${gameId}`, { army });
     }
 
