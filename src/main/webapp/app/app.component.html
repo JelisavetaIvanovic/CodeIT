@@ -2,10 +2,11 @@
   <div class="content">
     <div class="left-side">
       <h1>Battle simulator</h1>
+      <button (click)="listGames()">List games</button>
       <div class="game">
         <button (click)="createGame()">Create game</button>
         <form action="">
-          <label for="listOfGames">Choose a game:</label>
+          <label for="listOfGames">Choose a game: </label>
             <select name="selectedGame" id="Game" [(ngModel)]="selectedGame" (change)="onGameSelected()">
               <option *ngFor="let game of listOfGames" [value]="game.id">{{ game.id }}</option>
             </select>
@@ -16,8 +17,16 @@
         <button (click)="addArmy(selectedGame, armyData)">Add army</button>
         <div class="inputs">
           <input class="name" [(ngModel)]="armyData.name"  placeholder="Name">
-          <input class="strategy" [(ngModel)]="armyData.strategy" placeholder="Strategy">
-          <input class="units" [(ngModel)]="armyData.units" placeholder="Units">
+          <form action="">
+            <select name="selectedStrategy" id="Strategy" [(ngModel)]="armyData.strategy">
+              <option *ngFor="let strategy of listOfStrategies" [value]="strategy">{{ strategy }}</option>
+            </select>
+            <br><br>
+          </form>
+          <input class="units" [(ngModel)]="armyData.units" placeholder="Units" (input)="validateUnits()">
+          <div *ngIf="invalidUnits" class="error-message">
+            Please enter a number between 80 and 100.
+          </div>
         </div>
       </div>
       <div class="status">
@@ -30,7 +39,26 @@
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
-      <div></div>
+      <ng-container *ngIf="showGames">
+        <ng-container *ngIf="listOfGames.length > 0; else noGames">
+          <ng-container *ngTemplateOutlet="listGamesTemplate"></ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </main>
+
+
+<ng-template #listGamesTemplate>
+  <div *ngFor="let game of listOfGames">
+    <h3>Game ID: {{ game.id }}</h3>
+    <ul>
+      <li *ngFor="let army of game.army">
+        Army: {{ army }}
+      </li>
+    </ul>
+  </div>
+</ng-template>
+<ng-template #noGames>
+  <p>No games available.</p>
+</ng-template>

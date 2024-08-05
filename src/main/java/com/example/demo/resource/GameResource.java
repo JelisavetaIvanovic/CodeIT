@@ -54,12 +54,11 @@ public class GameResource {
             Game game = games.get(i);
 
             List<Army> armies = armyService.findAllArmies(game.getId());
-
             List<String> armyDetailsList = new ArrayList<>();
 
             for (Army army : armies) {
                 String armyDetails = String.format(
-                        "%s: %s, %s/%s",
+                        "%s, %s, %s/%s",
                         army.getId(),
                         army.getName(),
                         army.getCurrentUnits(),
@@ -79,6 +78,7 @@ public class GameResource {
             @RequestParam UUID gameId,
             @RequestBody ArmyDTO army
     ) {
+        log.info("%s", army.getName());
         Army newArmy = new Army(gameId, army.getName(), army.getStrategy(), army.getUnits());
 
         gameService.addArmy(gameId, newArmy);

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GameService } from './dashboard/serveces/game.service';
-import { ArmyData } from './dashboard/model/army.model';
+import { ArmyData, Strategy } from './dashboard/model/army.model';
 import { GameLogService } from './dashboard/serveces/gameLog.service';
 import { Subscription } from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
@@ -25,11 +25,14 @@ export class AppComponent implements OnInit, OnDestroy{
   listOfGames: {id: string; army: string[] }[];
   selectedGame: string;
   armyData: ArmyData;
+  listOfStrategies: Strategy[] = ["RANDOM" , "WEAKEST" , "STRONGEST"]
+  invalidUnits = false;
+  showGames: boolean = true;
 
   constructor(private gameService: GameService, private gameLogService: GameLogService, private router: Router) {
     this.listOfGames = [];
     this.selectedGame = '';
-    this.armyData = {name: '', strategy: 'RANDOM', units: 0};
+    this.armyData = {name: '', strategy: 'RANDOM', units: 80};
   }
 
   ngOnInit() {
@@ -37,22 +40,29 @@ export class AppComponent implements OnInit, OnDestroy{
   }
 
   createGame(): void {
-    this.subscription = this.gameService.createGame().subscribe();
+    this.subscription = this.gameService.createGame().subscribe(newGame => {
+      this.listOfGames.push({ id: newGame, army: [] });
+      this.selectedGame = newGame;
+    });
   }
 
   listGames(): void {
     this.subscription = this.gameService.listGames().subscribe((list) => {
       this.listOfGames = Object.keys(list).map(key => ({ id: key, army: list[key] }));
     });
+    this.showGames = !this.showGames;
   }
 
   addArmy(gameId: string, armyData: ArmyData): void {
     if (this.selectedGame) {
       this.router.navigate(['/game/add-army'], { queryParams: { gameId: this.selectedGame } });
-
     }
-    this.subscription = this.gameService.addArmy(gameId, armyData).subscribe();
-    this.armyData = { name: '', strategy: 'RANDOM', units: 0 };
+    if(armyData.units < 80 || armyData.units > 100) {
+
+    } else {
+      this.subscription = this.gameService.addArmy(gameId, armyData).subscribe();
+      this.armyData = { name: '', strategy: 'RANDOM', units: 0 };
+    }
   }
 
   runAttack(gameId: string): void {
@@ -70,6 +80,15 @@ export class AppComponent implements OnInit, OnDestroy{
   onGameSelected(): void {
     if (this.selectedGame) {
       this.router.navigate(['/game'], { queryParams: { gameId: this.selectedGame } });
+    }
+  }
+
+  validateUnits(): void {
+    const units = this.armyData.units;
+    if (isNaN(units) || units < 80 || units > 100) {
+      this.invalidUnits = true;
+    } else {
+      this.invalidUnits = false;
     }
   }
 

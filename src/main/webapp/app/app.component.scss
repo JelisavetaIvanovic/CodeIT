@@ -87,7 +87,7 @@
         overflow-y: hidden;
 
         .left-side {
-            max-width: 400px;
+            max-width: 600px;
 
             h1 {
                 padding-bottom: 50px;
@@ -98,11 +98,13 @@
                 gap: 20px;
                 padding-bottom: 30px;
                 min-height: 80px;
+                align-items: center;
             }
 
             .army {
                 display: flex;
                 gap: 20px;
+                align-items: center;
 
                 .inputs {
                     display: flex;

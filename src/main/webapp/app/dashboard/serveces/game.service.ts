@@ -20,7 +20,7 @@ export class GameService {
     }
     
     public addArmy(gameId: string, army: ArmyData): Observable<void>{
-        return this._http.post<void>(`${SERVER_API_URL}/game/add-army?gameId=${gameId}`, { army });
+        return this._http.post<void>(`${SERVER_API_URL}/game/add-army?gameId=${gameId}`, army );
     }
 
     public runAttack(gameId: string): Observable<void>{
